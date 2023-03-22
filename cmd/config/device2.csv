@@ -1,0 +1,2 @@
+device_id,group_id,ip,user_name,password,run_path,stake_mark,can0_type,can1_type,can2_type,can3_type,can0_file,can1_file,can2_file,can3_file
+1,1,192.168.233.127,root,,/mnt/r%/,K21+250,1,2,0,0,a,,,

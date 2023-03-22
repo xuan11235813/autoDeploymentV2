@@ -1,9 +1,10 @@
 package comm
 
 type ServerConfigurations struct {
-	Port      int
-	IPAddress string
-	ExtraPort int
+	Port               int
+	IPAddress          string
+	ExtraPort          int
+	LocalImplementPath string
 }
 
 type RadarType struct {

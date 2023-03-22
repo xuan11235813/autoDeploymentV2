@@ -37,6 +37,14 @@ func CreateTestDirectory(directoryName string) {
 
 }
 
+func CreateAbsoluteDirectory(path string) {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		if err := os.Mkdir(path, os.ModePerm); err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
 func Copy(src, dst string) (int64, error) {
 	sourceFileStat, err := os.Stat(src)
 	if err != nil {
@@ -190,12 +198,12 @@ func TestCopy() {
 	Copy("./config/fuck.txt", "../fuck1.txt")
 }
 
-func getConfiguration(configuration *Config) {
+func GetConfiguration(configuration *Config) {
 	viper.SetConfigName("config")
 
 	// Set the path to look for the configurations file
 	viper.AddConfigPath("./config/")
-
+	viper.AddConfigPath("../config/")
 	// Enable VIPER to read Environment Variables
 	viper.AutomaticEnv()
 
@@ -219,7 +227,7 @@ func TestViper() {
 	viper.SetConfigName("config")
 
 	// Set the path to look for the configurations file
-	viper.AddConfigPath("./config/")
+	viper.AddConfigPath("../config/")
 
 	// Enable VIPER to read Environment Variables
 	viper.AutomaticEnv()
@@ -249,11 +257,12 @@ func TestViper() {
 	}
 	fmt.Println("projectNum: ", configuration.Project.ProjectNum)
 	fmt.Println("extraPort: ", configuration.Server.ExtraPort)
+	fmt.Println("localPath: ", configuration.Server.LocalImplementPath)
 }
 
 func TestCSVFile() {
 	var configuration Config
-	getConfiguration(&configuration)
+	GetConfiguration(&configuration)
 
 	var result []map[string]string
 	result, err := CSVFileToMap("./config/device.csv")

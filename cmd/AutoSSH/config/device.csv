@@ -1,9 +1,0 @@
-device_id,group_id,ip,user_name,password,run_path,stake_mark,can0_type,can1_type,can2_type,can3_type,can0_file,can1_file,can2_file,can3_file
-1,0,10.188.68.1,root,NULL,/mnt/r%/,K21+250,1,2,0,0,a,,,
-2,0,10.188.68.2,root,NULL,/mnt/r%/,K21+451,1,2,0,0,,b,,
-3,1,10.188.68.3,root,NULL,/mnt/r%/,K21+852,1,2,0,0,,,,
-4,0,10.188.68.4,root,NULL,/mnt/r%/,K22+253,1,2,0,0,,,,
-9,0,10.188.68.9,root,NULL,/mnt/r%/,K22+253,4,0,0,0,,,,
-48,0,10.188.68.48,root,NULL,/mnt/r%/,K22+554,1,2,1,2,,,,
-49,0,10.188.68.49,root,NULL,/mnt/r%/,K22+955,1,2,1,2,,,,
-50,0,10.188.68.50,root,NULL,/mnt/r%/,K23+156,1,2,1,2,,,,

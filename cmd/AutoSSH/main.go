@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	. "autoDeploy/comm"
 	. "autoDeploy/mySSH"
 )
 
@@ -16,7 +17,6 @@ func main() {
 	/* variables */
 	var operationLines []string
 	var nodeOperations []NodeOperationItem
-	var lines []string
 	var nodes []NodeItem
 	argsWithProg := os.Args
 	operationFile := "operation.csv"
@@ -44,23 +44,16 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	localNodeDomainFilePath := local + "/nodeDomain.txt"
 
-	nodeDomainFile, err := os.Open(localNodeDomainFilePath)
-
+	var result []map[string]string
+	result, err = CSVFileToMap("./config/device.csv")
 	if err != nil {
-		fmt.Println("There is no node domain file. Please recheck.")
-		panic(err)
+		fmt.Print(err.Error() + "\n")
+		result, err = CSVFileToMap("../config/device.csv")
+		if err != nil {
+			fmt.Print(err.Error())
+		}
 	}
-	defer nodeDomainFile.Close()
-
-	scanner := bufio.NewScanner(nodeDomainFile)
-	scanner.Split(bufio.ScanLines)
-
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-	nodeDomainFile.Close()
 
 	localOperationFilePath := local + "/" + operationFile
 	nodeOperationFile, err := os.Open(localOperationFilePath)
@@ -71,28 +64,21 @@ func main() {
 	}
 	defer nodeOperationFile.Close()
 
-	scanner = bufio.NewScanner(nodeOperationFile)
+	scanner := bufio.NewScanner(nodeOperationFile)
 	scanner.Split(bufio.ScanLines)
 
 	for scanner.Scan() {
 		operationLines = append(operationLines, scanner.Text())
 	}
 
-	for i, v := range lines {
-		nodeString := strings.Split(v, ",")
-		if len(nodeString) == 5 {
-			var currNodeItem NodeItem
-			currNodeItem.NodeIndex = strings.Join(strings.Fields(nodeString[0]), "")
-			currNodeItem.IPaddress = strings.Join(strings.Fields(nodeString[1]), "")
-			currNodeItem.UserName = strings.Join(strings.Fields(nodeString[2]), "")
-			currNodeItem.Password = strings.Join(strings.Fields(nodeString[3]), "")
-			//currNodeItem.AbsolutePath = strings.Join(strings.Fields(nodeString[4]), "")
-			currNodeItem.AbsolutePath = GetRealNameFromPattern(strings.Join(strings.Fields(nodeString[4]), ""), currNodeItem.NodeIndex)
-
-			nodes = append(nodes, currNodeItem)
-		} else {
-			fmt.Printf("wrong input %d, : %s\n", i, v)
-		}
+	for _, item := range result {
+		var node NodeItem
+		node.UserName = item["user_name"]
+		node.Password = item["password"]
+		node.IPaddress = item["ip"]
+		node.NodeIndex = item["device_id"]
+		node.AbsolutePath = GetRealNameFromPattern(item["run_path"], node.NodeIndex)
+		nodes = append(nodes, node)
 	}
 	if len(nodes) == 0 {
 		panic("no suitable node domain files")
