@@ -1,0 +1,13 @@
+===============Implement node: 192.168.233.127, node index: 01 =============
+current operation: copy; with detail: /shell/checkAndStartNoNetworking.sh
+Success in node: 192.168.233.127 with operation: copy : /shell/checkAndStartNoNetworking.sh
+current operation: command; with detail: ls -la
+Output: drwxr-xr-x    4 root     root          4096 Mar 22  2023 .
+drwxr-xr-x   18 root     root          4096 Jan  7 08:24 ..
+-rw-r--r--    1 root     root           473 Mar 22  2023 checkAndStartNoNetworking.sh
+drwxr-xr-x    4 root     root          4096 Feb 27  2023 radarSystem
+drwxr-xr-x    5 root     root          4096 Feb 27  2023 radarSystem-master
+-rw-r--r--    1 root     root       1911250 Feb 27  2023 radarSystem-master .zip
+
+Success in node: 192.168.233.127 with operation: ls -la
+

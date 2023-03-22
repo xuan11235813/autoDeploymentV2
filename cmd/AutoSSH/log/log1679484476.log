@@ -1,0 +1,7 @@
+===============Implement node: 192.168.233.127, node index: 01 =============
+current operation: copy; with detail: /shell/checkAndStartNoNetworking.sh
+Success in node: 192.168.233.127 with operation: copy : /shell/checkAndStartNoNetworking.sh
+current operation: command; with detail: ls -la
+Failed to excute command: ssh: session already started
+
+

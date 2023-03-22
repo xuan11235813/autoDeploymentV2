@@ -1,0 +1,34 @@
+server:
+  port: 1995
+  ipAddress: "44.104.85.253"
+  extraPort: 1996
+
+project:
+  projectNum: 9
+
+
+radarTypeVec:
+  - typeNum:  1
+    isTunnel:  0
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
+    startIncoming:  2 
+    startOutgoing:  2
+  - typeNum:  2
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  0
+    startIncoming:  2 
+    startOutgoing:  2
+  - typeNum:  3
+    isTunnel:  1
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
+    startIncoming:  2
+    startOutgoing:  2
+  - typeNum:  4
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  3
+    startIncoming:  1
+    startOutgoing:  1

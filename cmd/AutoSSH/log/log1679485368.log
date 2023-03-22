@@ -1,0 +1,20 @@
+===============Implement node: 192.168.233.127, node index: 1 =============
+current operation: copy; with detail: /shell/checkAndStartNoNetworking.sh
+Success in node: 192.168.233.127 with operation: copy : /shell/checkAndStartNoNetworking.sh
+current operation: command; with detail: ls -la
+Output: drwxr-xr-x    2 root     root          4096 Mar 22  2023 .
+drwxr-xr-x    6 root     root          4096 Mar 22  2023 ..
+-rw-r--r--    1 root     root           473 Mar 22  2023 checkAndStartNoNetworking.sh
+
+Success in node: 192.168.233.127 with operation: ls -la
+
+===============Implement node: 192.168.233.127, node index: 2 =============
+current operation: copy; with detail: /shell/checkAndStartNoNetworking.sh
+Success in node: 192.168.233.127 with operation: copy : /shell/checkAndStartNoNetworking.sh
+current operation: command; with detail: ls -la
+Output: drwxr-xr-x    2 root     root          4096 Mar 22  2023 .
+drwxr-xr-x    6 root     root          4096 Mar 22  2023 ..
+-rw-r--r--    1 root     root           473 Mar 22  2023 checkAndStartNoNetworking.sh
+
+Success in node: 192.168.233.127 with operation: ls -la
+

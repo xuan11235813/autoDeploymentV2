@@ -1,0 +1,11 @@
+===============Implement node: 192.168.233.127, node index: 1 =============
+current operation: copy; with detail: /shell/checkAndStart.sh
+Success in node: 192.168.233.127 with operation: copy : /shell/checkAndStart.sh
+current operation: command; with detail: chmod +x checkAndStart.sh
+Output: 
+Success in node: 192.168.233.127 with operation: chmod +x checkAndStart.sh
+current operation: command; with detail: ./checkAndStart.sh
+Output: program is running
+
+Success in node: 192.168.233.127 with operation: ./checkAndStart.sh
+
