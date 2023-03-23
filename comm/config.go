@@ -14,10 +14,13 @@ type RadarType struct {
 	OutgoingLaneNum int
 	StartIncoming   int
 	StartOutgoing   int
+	RadarDirection  int
 }
 
 type ProjectConfiguration struct {
-	ProjectNum int
+	ProjectNum            int
+	ProjectName           string
+	ProjectStartStakeMark string
 }
 
 type Config struct {
@@ -40,4 +43,18 @@ type NodeConfig struct {
 	Can1ChessboardFile string
 	Can2ChessboardFile string
 	Can3ChessboardFile string
+}
+
+type RadarPos struct {
+	X float64
+	Y float64
+	Z float64
+}
+
+type RadarPosConfig struct {
+	Position       RadarPos
+	Angle          float64
+	RadarID        string
+	DenyLaneChange bool
+	Comment        string
 }

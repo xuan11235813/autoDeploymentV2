@@ -7,8 +7,10 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -294,6 +296,131 @@ func TestCSVFile() {
 	}
 }
 
+func Split(r rune) bool {
+	return r == 'k' || r == 'K' || r == '+'
+}
+
+func TransformStakeMarkToDistance(stakeMark string) (distance float64) {
+	distance = 0.0
+	stakeMark = regexp.MustCompile(`[^0-9 +.]+`).ReplaceAllString(stakeMark, "")
+
+	sVec := strings.Split(stakeMark, "+")
+	var flag bool = true
+	var km, hm float64
+
+	km, err := strconv.ParseFloat(strings.TrimSpace(sVec[0]), 32)
+	if err != nil {
+		flag = false
+	}
+	hm, err = strconv.ParseFloat(strings.TrimSpace(sVec[1]), 32)
+	if err != nil {
+		flag = false
+	}
+	if flag {
+		distance = km*1000 + hm
+	} else {
+		distance = 0
+	}
+	return
+}
+
+func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server ServerConfigurations, project ProjectConfiguration) (radarPosConfigs []RadarPosConfig) {
+
+	if node.Can0Type > 0 {
+		var configItem RadarPosConfig
+		var radarTypeTemp RadarType
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Can0Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
+		if radarTypeTemp.RadarDirection == 1 {
+			configItem.Angle = 0
+		} else {
+			configItem.Angle = math.Pi
+		}
+		configItem.Comment = project.ProjectName
+		configItem.DenyLaneChange = false
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		configItem.RadarID = strconv.Itoa(radarID)
+		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
+		configItem.Position.Y = 0
+		configItem.Position.Z = 0
+		radarPosConfigs = append(radarPosConfigs, configItem)
+	}
+	if node.Can1Type > 0 {
+		var configItem RadarPosConfig
+		var radarTypeTemp RadarType
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Can0Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
+		if radarTypeTemp.RadarDirection == 1 {
+			configItem.Angle = 0
+		} else {
+			configItem.Angle = math.Pi
+		}
+		configItem.Comment = project.ProjectName
+		configItem.DenyLaneChange = false
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		configItem.RadarID = strconv.Itoa(radarID)
+		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
+		configItem.Position.Y = 0
+		configItem.Position.Z = 0
+		radarPosConfigs = append(radarPosConfigs, configItem)
+	}
+	if node.Can2Type > 0 {
+		var configItem RadarPosConfig
+		var radarTypeTemp RadarType
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Can0Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
+		if radarTypeTemp.RadarDirection == 1 {
+			configItem.Angle = 0
+		} else {
+			configItem.Angle = math.Pi
+		}
+		configItem.Comment = project.ProjectName
+		configItem.DenyLaneChange = false
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		configItem.RadarID = strconv.Itoa(radarID)
+		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
+		configItem.Position.Y = 0
+		configItem.Position.Z = 0
+		radarPosConfigs = append(radarPosConfigs, configItem)
+	}
+	if node.Can3Type > 0 {
+		var configItem RadarPosConfig
+		var radarTypeTemp RadarType
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Can0Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
+		if radarTypeTemp.RadarDirection == 1 {
+			configItem.Angle = 0
+		} else {
+			configItem.Angle = math.Pi
+		}
+		configItem.Comment = project.ProjectName
+		configItem.DenyLaneChange = false
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		configItem.RadarID = strconv.Itoa(radarID)
+		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
+		configItem.Position.Y = 0
+		configItem.Position.Z = 0
+		radarPosConfigs = append(radarPosConfigs, configItem)
+	}
+	return
+}
+
 func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType, server ServerConfigurations, project ProjectConfiguration) {
 	f, err := os.Create(path)
 	Check(err)
@@ -313,6 +440,7 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 		for _, radarItem := range radarTypes {
 			if radarItem.TypeNum == node.Can0Type {
 				radarTypeTemp = radarItem
+				break
 			}
 		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
@@ -338,6 +466,7 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 		for _, radarItem := range radarTypes {
 			if radarItem.TypeNum == node.Can1Type {
 				radarTypeTemp = radarItem
+				break
 			}
 		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
@@ -362,6 +491,7 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 		for _, radarItem := range radarTypes {
 			if radarItem.TypeNum == node.Can2Type {
 				radarTypeTemp = radarItem
+				break
 			}
 		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
@@ -386,6 +516,7 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 		for _, radarItem := range radarTypes {
 			if radarItem.TypeNum == node.Can3Type {
 				radarTypeTemp = radarItem
+				break
 			}
 		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
