@@ -73,11 +73,11 @@ func main() {
 
 	for _, item := range result {
 		var node NodeItem
-		node.UserName = item["user_name"]
-		node.Password = item["password"]
-		node.IPaddress = item["ip"]
-		node.NodeIndex = item["device_id"]
-		node.AbsolutePath = GetRealNameFromPattern(item["run_path"], node.NodeIndex)
+		node.UserName = strings.TrimSpace(item["user_name"])
+		node.Password = strings.TrimSpace(item["password"])
+		node.IPaddress = strings.TrimSpace(item["ip"])
+		node.NodeIndex = strings.TrimSpace(item["device_id"])
+		node.AbsolutePath = strings.TrimSpace(GetRealNameFromPattern(item["run_path"], node.NodeIndex))
 		nodes = append(nodes, node)
 	}
 	if len(nodes) == 0 {
@@ -193,6 +193,18 @@ func main() {
 			case "command":
 				{
 					err := DirectImplement(v, opeItem.OperationContent, logFile)
+					if err == nil {
+						fmt.Printf("Success in node: %s with operation: %s\n", v.IPaddress, opeItem.OperationContent)
+						fmt.Fprintf(logFile, "Success in node: %s with operation: %s\n", v.IPaddress, opeItem.OperationContent)
+					} else {
+						testOperation = false
+						fmt.Printf("\n")
+						fmt.Fprintf(logFile, "\n")
+					}
+				}
+			case "commandD":
+				{
+					err := DirectImplementWithoutPath(v, opeItem.OperationContent, logFile)
 					if err == nil {
 						fmt.Printf("Success in node: %s with operation: %s\n", v.IPaddress, opeItem.OperationContent)
 						fmt.Fprintf(logFile, "Success in node: %s with operation: %s\n", v.IPaddress, opeItem.OperationContent)

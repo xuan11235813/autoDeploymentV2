@@ -30,7 +30,7 @@ type NodeOperationItem struct {
 	IsSubstitute            bool
 }
 
-var LegalOperationName = []string{"copy", "command", "copyN", "getN"}
+var LegalOperationName = []string{"copy", "command", "copyN", "getN", "commandD"}
 
 func StringInSlice(a string, list []string) bool {
 	for _, b := range list {
@@ -51,6 +51,46 @@ func GetRealNameFromPattern(oldString string, index string) string {
 		return refinedName
 	}
 	return oldString
+}
+func DirectImplementWithoutPath(currNode NodeItem, command string, printOutput io.Writer) error {
+	sshConfig := &ssh.ClientConfig{
+		User: currNode.UserName,
+		Auth: []ssh.AuthMethod{
+			ssh.Password(currNode.Password),
+		},
+		HostKeyCallback: func(hostname string, remote net.Addr, key ssh.PublicKey) error {
+			return nil
+		},
+	}
+	client, err := ssh.Dial("tcp", currNode.IPaddress+":22", sshConfig)
+	if err != nil {
+		fmt.Printf("Failed to dial: " + err.Error())
+		fmt.Fprintf(printOutput, "Failed to dial: "+err.Error())
+		return err
+	}
+	defer client.Close()
+
+	session, err := client.NewSession()
+	if err != nil {
+		fmt.Printf("Failed to create session: " + err.Error())
+		fmt.Fprintf(printOutput, "Failed to create session: "+err.Error())
+		return err
+	}
+	defer session.Close()
+	/* excute the command */
+	var stdoutBuf bytes.Buffer
+	session.Stdout = &stdoutBuf
+	err = session.Run(command)
+	if err != nil {
+		fmt.Printf("Failed to excute command: " + err.Error() + "\n")
+		fmt.Fprintf(printOutput, "Failed to excute command: "+err.Error()+"\n")
+		return err
+	}
+
+	fmt.Printf("Output: " + stdoutBuf.String() + "\n")
+	fmt.Fprintf(printOutput, "Output: "+stdoutBuf.String()+"\n")
+
+	return nil
 }
 
 func DirectImplement(currNode NodeItem, command string, printOutput io.Writer) error {
