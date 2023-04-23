@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 
@@ -78,7 +79,10 @@ func main() {
 		node.IPaddress = strings.TrimSpace(item["ip"])
 		node.NodeIndex = strings.TrimSpace(item["device_id"])
 		node.AbsolutePath = strings.TrimSpace(GetRealNameFromPattern(item["run_path"], node.NodeIndex))
-		nodes = append(nodes, node)
+		groupID, _ := strconv.Atoi(strings.TrimSpace(item["group_id"]))
+		if groupID == 1 {
+			nodes = append(nodes, node)
+		}
 	}
 	if len(nodes) == 0 {
 		panic("no suitable node domain files")
