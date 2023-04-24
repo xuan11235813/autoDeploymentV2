@@ -1,0 +1,48 @@
+server:
+  port: 1995
+  ipAddress: "44.104.85.253"
+  extraPort: 1996
+  localImplementPath: C:/Users/Zixuan_Gan/OneDrive/business/TongshiTech/code/autoDeployV2/
+
+project:
+  projectNum: 9
+  projectName: Shanxi
+  projectStartStakeMark: K19+345.6
+
+
+radarTypeVec:
+  - typeNum:  1
+    isTunnel:  0
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
+    startIncoming:  2 
+    startOutgoing:  2
+    radarDirection: 1
+  - typeNum:  2
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  0
+    startIncoming:  2 
+    startOutgoing:  2
+    radarDirection: 0
+  - typeNum:  3
+    isTunnel:  1
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
+    startIncoming:  2
+    startOutgoing:  2
+    radarDirection: 1
+  - typeNum:  4
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  3
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 1
+  - typeNum:  5
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  3
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 0

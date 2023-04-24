@@ -1,0 +1,4 @@
+commandD, if ! [ -e /mnt/r1/config/vec.config  ]; then mount 10.188.88.10:/srv/nfsroot /mnt -o nolock;fi
+copy, /shell/restartRadar.sh
+command, chmod +x restartRadar.sh
+command, ./restartRadar.sh

@@ -1,1 +1,4 @@
-commandD, ls -la
+commandD, if ! [ -e /mnt/r1/config/vec.config  ]; then mount 10.188.88.10:/srv/nfsroot /mnt -o nolock;fi
+copy, /shell/checkAndStart.sh
+command, chmod +x checkAndStart.sh
+command, ./checkAndStart.sh

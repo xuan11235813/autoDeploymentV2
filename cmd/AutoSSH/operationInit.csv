@@ -1,0 +1,11 @@
+commandD, if ! [ -e /mnt/r1/config/vec.config  ]; then mount 10.188.88.10:/srv/nfsroot /mnt -o nolock;fi
+copy, /canConf.log
+copy, /shell/MAGA.sh
+command, chmod +x MAGA.sh
+command, ./MAGA.sh
+command, ifconfig can0 txqueuelen 1024
+command, ifconfig can1 txqueuelen 1024
+command, ifconfig can2 txqueuelen 1024
+command, ifconfig can3 txqueuelen 1024
+command, canplayer -I canConf.log
+command, chmod +x outMultiple.lexe

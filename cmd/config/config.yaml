@@ -1,13 +1,13 @@
 server:
   port: 1995
-  ipAddress: "44.104.85.253"
+  ipAddress: "10.188.88.10"
   extraPort: 1996
-  localImplementPath: C:/Users/Zixuan_Gan/OneDrive/business/TongshiTech/code/autoDeployV2/
+  localImplementPath: /srv/nfsroot/
 
 project:
-  projectNum: 9
-  projectName: Shanxi
-  projectStartStakeMark: K19+345.6
+  projectNum: 11
+  projectName: HZMBridge
+  projectStartStakeMark: K432+500
 
 
 radarTypeVec:
@@ -20,8 +20,8 @@ radarTypeVec:
     radarDirection: 1
   - typeNum:  2
     isTunnel:  0
-    incomingLaneNum:  3
-    outgoingLaneNum:  0
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
     startIncoming:  2 
     startOutgoing:  2
     radarDirection: 0
@@ -45,4 +45,18 @@ radarTypeVec:
     outgoingLaneNum:  3
     startIncoming:  1
     startOutgoing:  1
+    radarDirection: 0
+  - typeNum:  6
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  0
+    startIncoming:  2 
+    startOutgoing:  2
+    radarDirection: 1
+  - typeNum:  7
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  0
+    startIncoming:  2 
+    startOutgoing:  2
     radarDirection: 0

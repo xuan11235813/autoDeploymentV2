@@ -353,7 +353,7 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		var configItem RadarPosConfig
 		var radarTypeTemp RadarType
 		for _, radarItem := range radarTypes {
-			if radarItem.TypeNum == node.Can0Type {
+			if radarItem.TypeNum == node.Can1Type {
 				radarTypeTemp = radarItem
 				break
 			}
@@ -376,7 +376,7 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		var configItem RadarPosConfig
 		var radarTypeTemp RadarType
 		for _, radarItem := range radarTypes {
-			if radarItem.TypeNum == node.Can0Type {
+			if radarItem.TypeNum == node.Can2Type {
 				radarTypeTemp = radarItem
 				break
 			}
@@ -399,7 +399,7 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		var configItem RadarPosConfig
 		var radarTypeTemp RadarType
 		for _, radarItem := range radarTypes {
-			if radarItem.TypeNum == node.Can0Type {
+			if radarItem.TypeNum == node.Can3Type {
 				radarTypeTemp = radarItem
 				break
 			}
