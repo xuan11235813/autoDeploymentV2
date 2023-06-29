@@ -325,7 +325,15 @@ func TransformStakeMarkToDistance(stakeMark string) (distance float64) {
 }
 
 func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server ServerConfigurations, project ProjectConfiguration) (radarPosConfigs []RadarPosConfig) {
-
+	var radarNum = 1
+	var currUpRiver = false
+	if node.DeviceID <= 64 {
+		currUpRiver = true
+	} else if node.DeviceID <= 128 {
+		currUpRiver = false
+	} else {
+		currUpRiver = false
+	}
 	if node.Can0Type > 0 {
 		var configItem RadarPosConfig
 		var radarTypeTemp RadarType
@@ -342,12 +350,18 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		}
 		configItem.Comment = project.ProjectName
 		configItem.DenyLaneChange = false
-		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
 		configItem.RadarID = strconv.Itoa(radarID)
 		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
 		configItem.Position.Y = 0
 		configItem.Position.Z = 0
+		if radarTypeTemp.TypeNum == 3 {
+			configItem.IsZH2HK = true
+		} else {
+			configItem.IsZH2HK = currUpRiver
+		}
 		radarPosConfigs = append(radarPosConfigs, configItem)
+		radarNum = radarNum + 1
 	}
 	if node.Can1Type > 0 {
 		var configItem RadarPosConfig
@@ -365,12 +379,18 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		}
 		configItem.Comment = project.ProjectName
 		configItem.DenyLaneChange = false
-		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
 		configItem.RadarID = strconv.Itoa(radarID)
 		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
 		configItem.Position.Y = 0
 		configItem.Position.Z = 0
+		if radarTypeTemp.TypeNum == 3 {
+			configItem.IsZH2HK = true
+		} else {
+			configItem.IsZH2HK = currUpRiver
+		}
 		radarPosConfigs = append(radarPosConfigs, configItem)
+		radarNum = radarNum + 1
 	}
 	if node.Can2Type > 0 {
 		var configItem RadarPosConfig
@@ -388,12 +408,18 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		}
 		configItem.Comment = project.ProjectName
 		configItem.DenyLaneChange = false
-		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
 		configItem.RadarID = strconv.Itoa(radarID)
 		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
 		configItem.Position.Y = 0
 		configItem.Position.Z = 0
+		if radarTypeTemp.TypeNum == 3 {
+			configItem.IsZH2HK = true
+		} else {
+			configItem.IsZH2HK = currUpRiver
+		}
 		radarPosConfigs = append(radarPosConfigs, configItem)
+		radarNum = radarNum + 1
 	}
 	if node.Can3Type > 0 {
 		var configItem RadarPosConfig
@@ -411,11 +437,16 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		}
 		configItem.Comment = project.ProjectName
 		configItem.DenyLaneChange = false
-		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
 		configItem.RadarID = strconv.Itoa(radarID)
 		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
 		configItem.Position.Y = 0
 		configItem.Position.Z = 0
+		if radarTypeTemp.TypeNum == 3 {
+			configItem.IsZH2HK = true
+		} else {
+			configItem.IsZH2HK = currUpRiver
+		}
 		radarPosConfigs = append(radarPosConfigs, configItem)
 	}
 	return
@@ -434,7 +465,7 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 	f.WriteString("samplePoolNum=6000\n")
 
 	var deviceNum = 0
-
+	var radarNum = 1
 	if node.Can0Type > 0 {
 		var radarTypeTemp RadarType
 		for _, radarItem := range radarTypes {
@@ -444,13 +475,17 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 			}
 		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
-		f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		if radarTypeTemp.IsTunnel == 1 {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=50" + "\n")
+		} else {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "Range=260" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanName=can0" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "USBIndex=0" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanIndex=0" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "RadarModuleName=40821.module" + "\n")
-		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "GlobalRadarID=" + strconv.Itoa(radarID) + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "IncomingLaneNum=" + strconv.Itoa(radarTypeTemp.IncomingLaneNum) + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "OutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.OutgoingLaneNum) + "\n")
@@ -460,6 +495,7 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "ChessboardFileName=" + node.Can0ChessboardFile + "\n")
 
 		deviceNum = deviceNum + 1
+		radarNum = radarNum + 1
 	}
 	if node.Can1Type > 0 {
 		var radarTypeTemp RadarType
@@ -470,13 +506,17 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 			}
 		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
-		f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		if radarTypeTemp.IsTunnel == 1 {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=50" + "\n")
+		} else {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "Range=260" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanName=can1" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "USBIndex=0" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanIndex=0" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "RadarModuleName=40821.module" + "\n")
-		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "GlobalRadarID=" + strconv.Itoa(radarID) + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "IncomingLaneNum=" + strconv.Itoa(radarTypeTemp.IncomingLaneNum) + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "OutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.OutgoingLaneNum) + "\n")
@@ -485,6 +525,7 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "IsDriveRight=1" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "ChessboardFileName=" + node.Can1ChessboardFile + "\n")
 		deviceNum = deviceNum + 1
+		radarNum = radarNum + 1
 	}
 	if node.Can2Type > 0 {
 		var radarTypeTemp RadarType
@@ -495,13 +536,17 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 			}
 		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
-		f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		if radarTypeTemp.IsTunnel == 1 {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=50" + "\n")
+		} else {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "Range=260" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanName=can2" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "USBIndex=0" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanIndex=0" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "RadarModuleName=40821.module" + "\n")
-		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "GlobalRadarID=" + strconv.Itoa(radarID) + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "IncomingLaneNum=" + strconv.Itoa(radarTypeTemp.IncomingLaneNum) + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "OutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.OutgoingLaneNum) + "\n")
@@ -510,6 +555,7 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "IsDriveRight=1" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "ChessboardFileName=" + node.Can2ChessboardFile + "\n")
 		deviceNum = deviceNum + 1
+		radarNum = radarNum + 1
 	}
 	if node.Can3Type > 0 {
 		var radarTypeTemp RadarType
@@ -520,13 +566,17 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 			}
 		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
-		f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		if radarTypeTemp.IsTunnel == 1 {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=50" + "\n")
+		} else {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		}
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "Range=260" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanName=can3" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "USBIndex=0" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanIndex=0" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "RadarModuleName=40821.module" + "\n")
-		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + 1
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "GlobalRadarID=" + strconv.Itoa(radarID) + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "IncomingLaneNum=" + strconv.Itoa(radarTypeTemp.IncomingLaneNum) + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "OutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.OutgoingLaneNum) + "\n")

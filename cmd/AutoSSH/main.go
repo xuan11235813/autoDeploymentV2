@@ -21,9 +21,35 @@ func main() {
 	var nodes []NodeItem
 	argsWithProg := os.Args
 	operationFile := "operation.csv"
+	operationNodeDomain := 0
+	singleNode := 0
 	if len(argsWithProg) > 1 {
 		operationFile = argsWithProg[1]
 		fmt.Printf(operationFile + "\n")
+		if operationFile == "--help" {
+			fmt.Println("Usage: ./AutoSSH [FILE] [GROUP] [NODEID] ")
+			fmt.Println("Two arguments: ./AutoSSH [fileName.csv]")
+			fmt.Println("Three arguments: ./AutoSSH [fileName.csv] [Group_Id]			   nodes with group id greater than Group_Id will be implemented")
+			fmt.Println("Four arguments: ./AutoSSH [fileName.csv] [-1] [Node_Id] 		   nodes with id equals Node_Id will be implemented")
+			return
+		}
+		if len(argsWithProg) == 3 {
+			var testNumber int = 0
+			testNumber, errDomain := strconv.Atoi(argsWithProg[2])
+			Check(errDomain)
+			if testNumber > 0 {
+				operationNodeDomain = testNumber
+			}
+		}
+		if len(argsWithProg) == 4 {
+			operationNodeDomain = -1
+			var testNumber int = 0
+			testNumber, errDomain := strconv.Atoi(argsWithProg[3])
+			Check(errDomain)
+			if testNumber > 0 {
+				singleNode = testNumber
+			}
+		}
 	}
 	/* download data files */
 	if _, err := os.Stat("data"); os.IsNotExist(err) {
@@ -80,8 +106,15 @@ func main() {
 		node.NodeIndex = strings.TrimSpace(item["device_id"])
 		node.AbsolutePath = strings.TrimSpace(GetRealNameFromPattern(item["run_path"], node.NodeIndex))
 		groupID, _ := strconv.Atoi(strings.TrimSpace(item["group_id"]))
-		if groupID == 1 {
-			nodes = append(nodes, node)
+		if operationNodeDomain >= 0 {
+			if groupID >= operationNodeDomain {
+				nodes = append(nodes, node)
+			}
+		} else {
+			currNodeId, _ := strconv.Atoi(strings.TrimSpace(item["device_id"]))
+			if currNodeId == singleNode {
+				nodes = append(nodes, node)
+			}
 		}
 	}
 	if len(nodes) == 0 {

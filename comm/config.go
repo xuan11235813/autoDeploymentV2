@@ -57,4 +57,5 @@ type RadarPosConfig struct {
 	RadarID        string
 	DenyLaneChange bool
 	Comment        string
+	IsZH2HK        bool
 }
