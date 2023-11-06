@@ -88,17 +88,3 @@ radarTypeVec:
     startIncoming:  1
     startOutgoing:  1
     radarDirection: 0
-  - typeNum: 12
-    isTunnel:  0
-    incomingLaneNum:  0
-    outgoingLaneNum:  3
-    startIncoming:  1
-    startOutgoing:  1
-    radarDirection: 1
-  - typeNum: 13
-    isTunnel:  0
-    incomingLaneNum:  3
-    outgoingLaneNum:  0
-    startIncoming:  1
-    startOutgoing:  1
-    radarDirection: 1

@@ -1,7 +1,10 @@
 package main
 
 import (
+	. "autoDeploy/comm"
+	. "autoDeploy/mySSH"
 	"bufio"
+	_ "embed"
 	"fmt"
 	"log"
 	"os"
@@ -9,10 +12,10 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	. "autoDeploy/comm"
-	. "autoDeploy/mySSH"
 )
+
+//go:embed help.txt
+var help string
 
 func main() {
 	/* variables */
@@ -27,10 +30,8 @@ func main() {
 		operationFile = argsWithProg[1]
 		fmt.Printf(operationFile + "\n")
 		if operationFile == "--help" {
-			fmt.Println("Usage: ./AutoSSH [FILE] [GROUP] [NODEID] ")
-			fmt.Println("Two arguments: ./AutoSSH [fileName.csv]")
-			fmt.Println("Three arguments: ./AutoSSH [fileName.csv] [Group_Id]			   nodes with group id greater than Group_Id will be implemented")
-			fmt.Println("Four arguments: ./AutoSSH [fileName.csv] [-1] [Node_Id] 		   nodes with id equals Node_Id will be implemented")
+
+			fmt.Println(help)
 			return
 		}
 		if len(argsWithProg) == 3 {

@@ -1,0 +1,5 @@
+Usage: ./AutoSSH [FILE] [GROUP] [NODEID]
+One argument： ./AutoSSH                                           nodes will be automatically implemented with operation "operation.csv"
+Two arguments: ./AutoSSH [fileName.csv]
+Three arguments: ./AutoSSH [fileName.csv] [Group_Id]			   nodes with group id greater than Group_Id will be implemented
+Four arguments: ./AutoSSH [fileName.csv] [-1] [Node_Id] 		   nodes with id equals Node_Id will be implemented
