@@ -26,7 +26,7 @@ func UpdateRadarConfig() {
 		}
 	}
 	var radarPosConfigs []RadarPosConfig
-
+	var inputSliceMap []map[string]string
 	for _, item := range result {
 		var node NodeConfig
 		node.UserName = item["user_name"]
@@ -49,7 +49,29 @@ func UpdateRadarConfig() {
 		node.Can3ChessboardFile = item["can3_file"]
 		var configs []RadarPosConfig = GenerateRadarPosFromNode(node, configuration.RadarTypeVec, configuration.Server, configuration.Project)
 		radarPosConfigs = append(radarPosConfigs, configs...)
+
+		for _, v := range configs {
+
+			item := map[string]string{
+				"RadarID":             v.RadarID,
+				"Comment":             v.Comment,
+				"Stake":               strconv.FormatFloat(v.Position.X, 'g', -1, 64),
+				"Direction":           strconv.FormatBool(v.IsZH2HK),
+				"SoftMaxIncoming":     "0",
+				"CoordinateLongitude": "0",
+				"CoordinateLatitude":  "0",
+				"ViewPositionX":       strconv.FormatFloat(v.Position.X, 'g', -1, 64),
+				"ViewPositionY":       "0",
+				"ViewPositionZ":       "0",
+				"AngleDeg":            "0",
+				"InTunnel":            "0",
+			}
+
+			inputSliceMap = append(inputSliceMap, item)
+		}
 	}
+	var header = []string{"RadarID", "Comment", "Stake", "Direction", "SoftMaxIncoming", "CoordinateLongitude", "CoordinateLatitude", "ViewPositionX", "ViewPositionY", "ViewPositionZ", "AngleDeg", "InTunnel"}
+	MapToCSVFile(inputSliceMap, "radarMop.csv", header)
 
 	a, _ := json.Marshal(radarPosConfigs)
 	fmt.Println(string(a))
