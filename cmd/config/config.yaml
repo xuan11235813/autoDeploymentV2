@@ -1,13 +1,13 @@
 server:
   port: 1995
-  ipAddress: "10.188.88.10"
+  ipAddress: "44.114.12.43"
   extraPort: 1996
   localImplementPath: /srv/nfsroot/
 
 project:
-  projectNum: 11
-  projectName: HZMBridge
-  projectStartStakeMark: K432+500
+  projectNum: 13
+  projectName: SZBridge
+  projectStartStakeMark: K0+000
 
 
 radarTypeVec:
@@ -102,3 +102,31 @@ radarTypeVec:
     startIncoming:  1
     startOutgoing:  1
     radarDirection: 1
+  - typeNum: 14
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  3
+    startIncoming:  2
+    startOutgoing:  2
+    radarDirection: 1
+  - typeNum: 15
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  3
+    startIncoming:  2
+    startOutgoing:  2
+    radarDirection: 0
+  - typeNum: 16
+    isTunnel:  1
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
+    startIncoming:  2
+    startOutgoing:  2
+    radarDirection: 1
+  - typeNum: 17
+    isTunnel:  1
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
+    startIncoming:  2
+    startOutgoing:  2
+    radarDirection: 0

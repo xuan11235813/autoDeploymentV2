@@ -14,4 +14,6 @@ func TestStakeMark(t *testing.T) {
 	fmt.Println(distance)
 	distance = TransformStakeMarkToDistance("  K193  dd   + a234z.7")
 	fmt.Println(distance)
+	distance = TransformStakeMarkToDistance("  E12  dd   + a234z.7")
+	fmt.Println(distance)
 }

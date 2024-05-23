@@ -1,0 +1,104 @@
+server:
+  port: 1995
+  ipAddress: "10.188.88.10"
+  extraPort: 1996
+  localImplementPath: /srv/nfsroot/
+
+project:
+  projectNum: 11
+  projectName: HZMBridge
+  projectStartStakeMark: K432+500
+
+
+radarTypeVec:
+  - typeNum:  1
+    isTunnel:  0
+    incomingLaneNum:  0
+    outgoingLaneNum:  2
+    startIncoming:  2 
+    startOutgoing:  2
+    radarDirection: 1
+  - typeNum:  2
+    isTunnel:  0
+    incomingLaneNum:  0
+    outgoingLaneNum:  2
+    startIncoming:  2 
+    startOutgoing:  2
+    radarDirection: 0
+  - typeNum:  3
+    isTunnel:  1
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 1
+  - typeNum:  4
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  3
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 1
+  - typeNum:  5
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  3
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 0
+  - typeNum:  6
+    isTunnel:  0
+    incomingLaneNum:  2
+    outgoingLaneNum:  0
+    startIncoming:  2 
+    startOutgoing:  2
+    radarDirection: 1
+  - typeNum:  7
+    isTunnel:  0
+    incomingLaneNum:  2
+    outgoingLaneNum:  0
+    startIncoming:  2 
+    startOutgoing:  2
+    radarDirection: 0
+  - typeNum:  8
+    isTunnel:  1
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 0
+  - typeNum:  9
+    isTunnel:  1
+    incomingLaneNum:  3
+    outgoingLaneNum:  0
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 1
+  - typeNum: 10
+    isTunnel:  0
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 0
+  - typeNum: 11
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  0
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 0
+  - typeNum: 12
+    isTunnel:  0
+    incomingLaneNum:  0
+    outgoingLaneNum:  3
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 1
+  - typeNum: 13
+    isTunnel:  0
+    incomingLaneNum:  3
+    outgoingLaneNum:  0
+    startIncoming:  1
+    startOutgoing:  1
+    radarDirection: 1

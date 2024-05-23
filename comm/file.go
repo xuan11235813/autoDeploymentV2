@@ -302,25 +302,49 @@ func Split(r rune) bool {
 
 func TransformStakeMarkToDistance(stakeMark string) (distance float64) {
 	distance = 0.0
-	stakeMark = regexp.MustCompile(`[^0-9 +.]+`).ReplaceAllString(stakeMark, "")
+	if strings.Contains(stakeMark, "k") || strings.Contains(stakeMark, "K") {
+		stakeMark = regexp.MustCompile(`[^0-9 +.]+`).ReplaceAllString(stakeMark, "")
 
-	sVec := strings.Split(stakeMark, "+")
-	var flag bool = true
-	var km, hm float64
+		sVec := strings.Split(stakeMark, "+")
+		var flag bool = true
+		var km, hm float64
 
-	km, err := strconv.ParseFloat(strings.TrimSpace(sVec[0]), 32)
-	if err != nil {
-		flag = false
+		km, err := strconv.ParseFloat(strings.TrimSpace(sVec[0]), 32)
+		if err != nil {
+			flag = false
+		}
+		hm, err = strconv.ParseFloat(strings.TrimSpace(sVec[1]), 32)
+		if err != nil {
+			flag = false
+		}
+		if flag {
+			distance = km*1000 + hm
+		} else {
+			distance = 0
+		}
 	}
-	hm, err = strconv.ParseFloat(strings.TrimSpace(sVec[1]), 32)
-	if err != nil {
-		flag = false
+	if strings.Contains(stakeMark, "e") || strings.Contains(stakeMark, "E") {
+		stakeMark = regexp.MustCompile(`[^0-9 +.]+`).ReplaceAllString(stakeMark, "")
+
+		sVec := strings.Split(stakeMark, "+")
+		var flag bool = true
+		var hm, mm float64
+
+		hm, err := strconv.ParseFloat(strings.TrimSpace(sVec[0]), 32)
+		if err != nil {
+			flag = false
+		}
+		mm, err = strconv.ParseFloat(strings.TrimSpace(sVec[1]), 32)
+		if err != nil {
+			flag = false
+		}
+		if flag {
+			distance = -hm*100 - mm + 12500
+		} else {
+			distance = 0
+		}
 	}
-	if flag {
-		distance = km*1000 + hm
-	} else {
-		distance = 0
-	}
+
 	return
 }
 
