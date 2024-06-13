@@ -56,14 +56,14 @@ func UpdateRadarConfig() {
 				"RadarID":             v.RadarID,
 				"Comment":             v.Comment,
 				"Stake":               strconv.FormatFloat(v.Position.X, 'g', -1, 64),
-				"Direction":           strconv.FormatBool(v.IsZH2HK),
+				"Direction":           strconv.FormatInt(int64(Btoi(v.IsZH2HK)), 10),
 				"SoftMaxIncoming":     "0",
 				"CoordinateLongitude": "0",
 				"CoordinateLatitude":  "0",
 				"ViewPositionX":       strconv.FormatFloat(v.Position.X, 'g', -1, 64),
 				"ViewPositionY":       "0",
 				"ViewPositionZ":       "0",
-				"AngleDeg":            "0",
+				"AngleDeg":            strconv.FormatFloat(v.Angle, 'g', -1, 64),
 				"InTunnel":            "0",
 			}
 

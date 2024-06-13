@@ -107,8 +107,10 @@ func main() {
 		node.NodeIndex = strings.TrimSpace(item["device_id"])
 		node.AbsolutePath = strings.TrimSpace(GetRealNameFromPattern(item["run_path"], node.NodeIndex))
 		groupID, _ := strconv.Atoi(strings.TrimSpace(item["group_id"]))
-		if operationNodeDomain >= 0 {
-			if groupID >= operationNodeDomain {
+		if operationNodeDomain == 0 {
+			nodes = append(nodes, node)
+		} else if operationNodeDomain > 0 {
+			if groupID == operationNodeDomain {
 				nodes = append(nodes, node)
 			}
 		} else {

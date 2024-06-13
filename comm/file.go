@@ -18,6 +18,13 @@ import (
 	"github.com/spf13/viper"
 )
 
+func Btoi(b bool) int {
+	if b {
+		return 1
+	}
+	return 0
+}
+
 func Check(e error) {
 	if e != nil {
 		panic(e)
@@ -339,7 +346,7 @@ func TransformStakeMarkToDistance(stakeMark string) (distance float64) {
 			flag = false
 		}
 		if flag {
-			distance = -hm*100 - mm + 12500
+			distance = -hm*165 - mm + 12500
 		} else {
 			distance = 0
 		}
