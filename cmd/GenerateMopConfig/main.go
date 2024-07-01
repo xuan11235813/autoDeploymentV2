@@ -61,7 +61,7 @@ func UpdateRadarConfig() {
 				"CoordinateLongitude": "0",
 				"CoordinateLatitude":  "0",
 				"ViewPositionX":       strconv.FormatFloat(v.Position.X, 'g', -1, 64),
-				"ViewPositionY":       "0",
+				"ViewPositionY":       strconv.FormatFloat(v.Position.Y, 'g', -1, 64),
 				"ViewPositionZ":       "0",
 				"AngleDeg":            strconv.FormatFloat(v.Angle, 'g', -1, 64),
 				"InTunnel":            "0",

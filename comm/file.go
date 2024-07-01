@@ -356,6 +356,9 @@ func TransformStakeMarkToDistance(stakeMark string) (distance float64) {
 }
 
 func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server ServerConfigurations, project ProjectConfiguration) (radarPosConfigs []RadarPosConfig) {
+	//define Shenzhen:= Hongkong
+	//define Zhongshan:= Zhuhai
+	//define isZS2SZ:=isZH2HK
 	var radarNum = 1
 	var currUpRiver = false
 	if node.DeviceID <= 64 {
@@ -386,11 +389,29 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
 		configItem.Position.Y = 0
 		configItem.Position.Z = 0
+		configItem.RadarTypeItem = radarTypeTemp
 		if radarTypeTemp.TypeNum == 3 {
 			configItem.IsZH2HK = true
+		} else if (radarTypeTemp.TypeNum == 14) || (radarTypeTemp.TypeNum == 15) || (radarTypeTemp.TypeNum == 19) {
+			//to Shenzhen(Hongkong)
+			if configItem.Angle == math.Pi {
+				configItem.IsZH2HK = true
+			} else {
+				configItem.IsZH2HK = false
+			}
+
+			configItem.Position.Y = 0
+		} else if (radarTypeTemp.TypeNum == 16) || (radarTypeTemp.TypeNum == 17) || (radarTypeTemp.TypeNum == 18) {
+			//to Zhongshan(Zhuhai)
+			if configItem.Angle == math.Pi {
+				configItem.IsZH2HK = true
+			} else {
+				configItem.IsZH2HK = false
+			}
 		} else {
 			configItem.IsZH2HK = currUpRiver
 		}
+
 		radarPosConfigs = append(radarPosConfigs, configItem)
 		radarNum = radarNum + 1
 	}
@@ -415,8 +436,24 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
 		configItem.Position.Y = 0
 		configItem.Position.Z = 0
+		configItem.RadarTypeItem = radarTypeTemp
 		if radarTypeTemp.TypeNum == 3 {
 			configItem.IsZH2HK = true
+		} else if (radarTypeTemp.TypeNum == 14) || (radarTypeTemp.TypeNum == 15) || (radarTypeTemp.TypeNum == 19) {
+			//to Shenzhen(Hongkong)
+			if configItem.Angle == math.Pi {
+				configItem.IsZH2HK = true
+			} else {
+				configItem.IsZH2HK = false
+			}
+			configItem.Position.Y = 0
+		} else if (radarTypeTemp.TypeNum == 16) || (radarTypeTemp.TypeNum == 17) || (radarTypeTemp.TypeNum == 18) {
+			//to Zhongshan(Zhuhai)
+			if configItem.Angle == math.Pi {
+				configItem.IsZH2HK = true
+			} else {
+				configItem.IsZH2HK = false
+			}
 		} else {
 			configItem.IsZH2HK = currUpRiver
 		}
@@ -444,8 +481,24 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
 		configItem.Position.Y = 0
 		configItem.Position.Z = 0
+		configItem.RadarTypeItem = radarTypeTemp
 		if radarTypeTemp.TypeNum == 3 {
 			configItem.IsZH2HK = true
+		} else if (radarTypeTemp.TypeNum == 14) || (radarTypeTemp.TypeNum == 15) || (radarTypeTemp.TypeNum == 19) {
+			//to Shenzhen(Hongkong)
+			if configItem.Angle == math.Pi {
+				configItem.IsZH2HK = true
+			} else {
+				configItem.IsZH2HK = false
+			}
+			configItem.Position.Y = 0
+		} else if (radarTypeTemp.TypeNum == 16) || (radarTypeTemp.TypeNum == 17) || (radarTypeTemp.TypeNum == 18) {
+			//to Zhongshan(Zhuhai)
+			if configItem.Angle == math.Pi {
+				configItem.IsZH2HK = true
+			} else {
+				configItem.IsZH2HK = false
+			}
 		} else {
 			configItem.IsZH2HK = currUpRiver
 		}
@@ -473,8 +526,24 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		configItem.Position.X = -TransformStakeMarkToDistance(project.ProjectStartStakeMark) + TransformStakeMarkToDistance(node.StakeMark)
 		configItem.Position.Y = 0
 		configItem.Position.Z = 0
+		configItem.RadarTypeItem = radarTypeTemp
 		if radarTypeTemp.TypeNum == 3 {
 			configItem.IsZH2HK = true
+		} else if (radarTypeTemp.TypeNum == 14) || (radarTypeTemp.TypeNum == 15) || (radarTypeTemp.TypeNum == 19) {
+			//to Shenzhen(Hongkong)
+			if configItem.Angle == math.Pi {
+				configItem.IsZH2HK = true
+			} else {
+				configItem.IsZH2HK = false
+			}
+			configItem.Position.Y = 0
+		} else if (radarTypeTemp.TypeNum == 16) || (radarTypeTemp.TypeNum == 17) || (radarTypeTemp.TypeNum == 18) {
+			//to Zhongshan(Zhuhai)
+			if configItem.Angle == math.Pi {
+				configItem.IsZH2HK = true
+			} else {
+				configItem.IsZH2HK = false
+			}
 		} else {
 			configItem.IsZH2HK = currUpRiver
 		}
