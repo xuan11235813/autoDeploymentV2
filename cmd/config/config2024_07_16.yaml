@@ -105,30 +105,30 @@ radarTypeVec:
   - typeNum: 14
     isTunnel:  0
     incomingLaneNum:  4
-    outgoingLaneNum:  0
-    startIncoming:  2
-    startOutgoing:  2
+    outgoingLaneNum:  4
+    startIncoming:  1
+    startOutgoing:  1
     radarDirection: 1
   - typeNum: 15
     isTunnel:  0
-    incomingLaneNum:  0
+    incomingLaneNum:  4
     outgoingLaneNum:  4
-    startIncoming:  2
-    startOutgoing:  2
+    startIncoming:  1
+    startOutgoing:  1
     radarDirection: 0
   - typeNum: 16
     isTunnel:  0
     incomingLaneNum:  4
-    outgoingLaneNum:  0
-    startIncoming:  2
-    startOutgoing:  2
+    outgoingLaneNum:  4
+    startIncoming:  1
+    startOutgoing:  1
     radarDirection: 0
   - typeNum: 17
     isTunnel:  0
-    incomingLaneNum:  0
+    incomingLaneNum:  4
     outgoingLaneNum:  4
-    startIncoming:  2
-    startOutgoing:  2
+    startIncoming:  1
+    startOutgoing:  1
     radarDirection: 1
   - typeNum: 18
     isTunnel:  1
@@ -154,34 +154,6 @@ radarTypeVec:
   - typeNum: 21
     isTunnel:  0
     incomingLaneNum:  4
-    outgoingLaneNum:  4
-    startIncoming:  1
-    startOutgoing:  1
-    radarDirection: 0
-  - typeNum: 22
-    isTunnel:  1
-    incomingLaneNum:  0
-    outgoingLaneNum:  1
-    startIncoming:  1
-    startOutgoing:  1
-    radarDirection: 0
-  - typeNum: 23
-    isTunnel:  1
-    incomingLaneNum:  0
-    outgoingLaneNum:  2
-    startIncoming:  1
-    startOutgoing:  1
-    radarDirection: 0
-  - typeNum: 24
-    isTunnel:  1
-    incomingLaneNum:  0
-    outgoingLaneNum:  3
-    startIncoming:  1
-    startOutgoing:  1
-    radarDirection: 0
-  - typeNum: 25
-    isTunnel:  1
-    incomingLaneNum:  0
     outgoingLaneNum:  4
     startIncoming:  1
     startOutgoing:  1
