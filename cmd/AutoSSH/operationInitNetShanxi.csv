@@ -1,0 +1,21 @@
+command, mkdir radarSystem
+command, mkdir radarSystem/remotePort
+command, mkdir radarSystem/radarSystem
+command, mkdir radarSystem/radarSystem/config
+command, mkdir radarSystem/radarSystem/data
+copy, /files/40821.module
+command, mv 40821.module radarSystem/radarSystem/config
+copyN, /files/portConfig/vec%.config
+command, mv vec.config  radarSystem/radarSystem/config
+copyN, /files/portConfig/config%.json
+command, mv config.json radarSystem/remotePort
+copy, /files/netMultiple.lexe
+command, sudo chmod +x netMultiple.lexe
+command, mv netMultiple.lexe radarSystem/radarSystem
+copy, /files/tcpKeepAliveServer
+command, sudo chmod +x tcpKeepAliveServer
+command, mv tcpKeepAliveServer radarSystem/remotePort
+copy, /files/l.deb
+copy, /files/s.deb
+command, sudo dpkg -i l.deb
+command, sudo dpkg -i s.deb

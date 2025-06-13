@@ -4,15 +4,78 @@ import (
 	. "autoDeploy/comm"
 	"encoding/json"
 	"fmt"
+	"os"
 	"strconv"
 )
 
 func main() {
+	switch os.Args[1] {
+	case "lagecy":
+		UpdateRadarConfigLagecy()
+	case "modern":
+		UpdateRadarConfigModern()
+	}
 
-	UpdateRadarConfig()
 }
 
-func UpdateRadarConfig() {
+func UpdateRadarConfigModern() {
+	var configuration Config
+	GetConfiguration(&configuration)
+
+	var result []map[string]string
+	result, err := CSVFileToMap("./config/device.csv")
+	if err != nil {
+		result, err = CSVFileToMap("../config/device.csv")
+		if err != nil {
+			panic(err)
+		}
+	}
+	var radarPosConfigs []RadarPosConfig
+	var inputSliceMap []map[string]string
+	for _, item := range result {
+		var node NodeConfig
+		node.UserName = item["user_name"]
+		node.StakeMark = item["stake_mark"]
+		node.Password = item["password"]
+		node.IpAddress = item["ip"]
+		node.DeviceID, err = strconv.Atoi(item["device_id"])
+		Check(err)
+		node.Net0Type, _ = strconv.Atoi(item["radar0_type"])
+		node.Net1Type, _ = strconv.Atoi(item["radar1_type"])
+		node.Net2Type, _ = strconv.Atoi(item["radar2_type"])
+		node.Net3Type, _ = strconv.Atoi(item["radar3_type"])
+		var configs []RadarPosConfig = GenerateRadarPosFromNode(node, configuration.RadarTypeVec, configuration.Server, configuration.Project)
+		radarPosConfigs = append(radarPosConfigs, configs...)
+
+		for _, v := range configs {
+
+			item := map[string]string{
+				"RadarID":             v.RadarID,
+				"Comment":             v.Comment,
+				"Stake":               strconv.FormatFloat(v.Position.X, 'g', -1, 64),
+				"Direction":           strconv.FormatInt(int64(Btoi(v.Direction)), 10),
+				"SoftMaxIncoming":     "0",
+				"CoordinateLongitude": "0",
+				"CoordinateLatitude":  "0",
+				"ViewPositionX":       strconv.FormatFloat(v.Position.X, 'g', -1, 64),
+				"ViewPositionY":       strconv.FormatFloat(v.Position.Y, 'g', -1, 64),
+				"ViewPositionZ":       "0",
+				"AngleDeg":            strconv.FormatFloat(v.Angle, 'g', -1, 64),
+				"InTunnel":            "0",
+			}
+
+			inputSliceMap = append(inputSliceMap, item)
+		}
+	}
+	var header = []string{"RadarID", "Comment", "Stake", "Direction", "SoftMaxIncoming", "CoordinateLongitude", "CoordinateLatitude", "ViewPositionX", "ViewPositionY", "ViewPositionZ", "AngleDeg", "InTunnel"}
+	MapToCSVFile(inputSliceMap, "radarMop.csv", header)
+
+	a, _ := json.Marshal(radarPosConfigs)
+	fmt.Println(string(a))
+
+}
+
+func UpdateRadarConfigLagecy() {
 
 	var configuration Config
 	GetConfiguration(&configuration)

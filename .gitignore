@@ -2,3 +2,5 @@
 *.lexe
 *.data
 *.log
+
+/cmd/MakeDir/portConfig/*.*

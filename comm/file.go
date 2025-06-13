@@ -368,7 +368,7 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 	} else {
 		currUpRiver = false
 	}
-	if node.Can0Type > 0 {
+	if node.Can0Type > 0 || node.Net0Type > 0 {
 		var configItem RadarPosConfig
 		var radarTypeTemp RadarType
 		for _, radarItem := range radarTypes {
@@ -377,10 +377,18 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 				break
 			}
 		}
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Net0Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
 		if radarTypeTemp.RadarDirection == 1 {
 			configItem.Angle = 0
+			configItem.Direction = true
 		} else {
 			configItem.Angle = math.Pi
+			configItem.Direction = false
 		}
 		configItem.Comment = project.ProjectName
 		configItem.DenyLaneChange = false
@@ -415,7 +423,7 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		radarPosConfigs = append(radarPosConfigs, configItem)
 		radarNum = radarNum + 1
 	}
-	if node.Can1Type > 0 {
+	if node.Can1Type > 0 || node.Net1Type > 0 {
 		var configItem RadarPosConfig
 		var radarTypeTemp RadarType
 		for _, radarItem := range radarTypes {
@@ -424,10 +432,18 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 				break
 			}
 		}
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Net1Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
 		if radarTypeTemp.RadarDirection == 1 {
 			configItem.Angle = 0
+			configItem.Direction = true
 		} else {
 			configItem.Angle = math.Pi
+			configItem.Direction = false
 		}
 		configItem.Comment = project.ProjectName
 		configItem.DenyLaneChange = false
@@ -460,7 +476,7 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		radarPosConfigs = append(radarPosConfigs, configItem)
 		radarNum = radarNum + 1
 	}
-	if node.Can2Type > 0 {
+	if node.Can2Type > 0 || node.Net2Type > 0 {
 		var configItem RadarPosConfig
 		var radarTypeTemp RadarType
 		for _, radarItem := range radarTypes {
@@ -469,10 +485,18 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 				break
 			}
 		}
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Net2Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
 		if radarTypeTemp.RadarDirection == 1 {
 			configItem.Angle = 0
+			configItem.Direction = true
 		} else {
 			configItem.Angle = math.Pi
+			configItem.Direction = false
 		}
 		configItem.Comment = project.ProjectName
 		configItem.DenyLaneChange = false
@@ -505,7 +529,7 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 		radarPosConfigs = append(radarPosConfigs, configItem)
 		radarNum = radarNum + 1
 	}
-	if node.Can3Type > 0 {
+	if node.Can3Type > 0 || node.Net3Type > 0 {
 		var configItem RadarPosConfig
 		var radarTypeTemp RadarType
 		for _, radarItem := range radarTypes {
@@ -514,10 +538,19 @@ func GenerateRadarPosFromNode(node NodeConfig, radarTypes []RadarType, server Se
 				break
 			}
 		}
+
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Net3Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
 		if radarTypeTemp.RadarDirection == 1 {
 			configItem.Angle = 0
+			configItem.Direction = true
 		} else {
 			configItem.Angle = math.Pi
+			configItem.Direction = false
 		}
 		configItem.Comment = project.ProjectName
 		configItem.DenyLaneChange = false
@@ -675,6 +708,144 @@ func CreateRadarConfigFile(path string, node NodeConfig, radarTypes []RadarType,
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanName=can3" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "USBIndex=0" + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanIndex=0" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "RadarModuleName=40821.module" + "\n")
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "GlobalRadarID=" + strconv.Itoa(radarID) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "IncomingLaneNum=" + strconv.Itoa(radarTypeTemp.IncomingLaneNum) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "OutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.OutgoingLaneNum) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "StartOutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.StartOutgoing) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "StartIncomingLaneNum=" + strconv.Itoa(radarTypeTemp.StartIncoming) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "IsDriveRight=1" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "ChessboardFileName=" + node.Can3ChessboardFile + "\n")
+	}
+}
+func CreateRadarConfigFileNet(path string, node NodeConfig, radarTypes []RadarType, server ServerConfigurations, project ProjectConfiguration) {
+	f, err := os.Create(path)
+	Check(err)
+	defer f.Close()
+	f.WriteString("remoteIpAddress=" + server.IPAddress + "\n")
+	f.WriteString("remotePortNum=" + strconv.Itoa(server.Port) + "\n")
+	f.WriteString("remotePortExtra=" + strconv.Itoa(server.ExtraPort) + "\n")
+	f.WriteString("sectionMinSpeed=10\n")
+	f.WriteString("sectionMaxSpeed=31\n")
+	f.WriteString("rangeXMax=260\n")
+	f.WriteString("samplePoolNum=6000\n")
+
+	var deviceNum = 0
+	var radarNum = 1
+	if node.Net0Type > 0 {
+		var radarTypeTemp RadarType
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Net0Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
+		if radarTypeTemp.IsTunnel == 1 {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=50" + "\n")
+		} else {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		}
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "Range=1200" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanName=can0" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "USBIndex=0" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanIndex=0" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "LocalReceivePort=" + node.Net0PortOut + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "RadarModuleName=40821.module" + "\n")
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "GlobalRadarID=" + strconv.Itoa(radarID) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "IncomingLaneNum=" + strconv.Itoa(radarTypeTemp.IncomingLaneNum) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "OutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.OutgoingLaneNum) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "StartOutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.StartOutgoing) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "StartIncomingLaneNum=" + strconv.Itoa(radarTypeTemp.StartIncoming) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "IsDriveRight=1" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "ChessboardFileName=" + node.Can0ChessboardFile + "\n")
+
+		deviceNum = deviceNum + 1
+		radarNum = radarNum + 1
+	}
+	if node.Net1Type > 0 {
+		var radarTypeTemp RadarType
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Net1Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
+		if radarTypeTemp.IsTunnel == 1 {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=50" + "\n")
+		} else {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		}
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "Range=1200" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanName=can1" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "USBIndex=0" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanIndex=0" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "LocalReceivePort=" + node.Net1PortOut + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "RadarModuleName=40821.module" + "\n")
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "GlobalRadarID=" + strconv.Itoa(radarID) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "IncomingLaneNum=" + strconv.Itoa(radarTypeTemp.IncomingLaneNum) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "OutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.OutgoingLaneNum) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "StartOutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.StartOutgoing) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "StartIncomingLaneNum=" + strconv.Itoa(radarTypeTemp.StartIncoming) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "IsDriveRight=1" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "ChessboardFileName=" + node.Can1ChessboardFile + "\n")
+		deviceNum = deviceNum + 1
+		radarNum = radarNum + 1
+	}
+	if node.Net2Type > 0 {
+		var radarTypeTemp RadarType
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Net2Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
+		if radarTypeTemp.IsTunnel == 1 {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=50" + "\n")
+		} else {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		}
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "Range=1200" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanName=can2" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "USBIndex=0" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanIndex=0" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "LocalReceivePort=" + node.Net2PortOut + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "RadarModuleName=40821.module" + "\n")
+		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "GlobalRadarID=" + strconv.Itoa(radarID) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "IncomingLaneNum=" + strconv.Itoa(radarTypeTemp.IncomingLaneNum) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "OutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.OutgoingLaneNum) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "StartOutgoingLaneNum=" + strconv.Itoa(radarTypeTemp.StartOutgoing) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "StartIncomingLaneNum=" + strconv.Itoa(radarTypeTemp.StartIncoming) + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "IsDriveRight=1" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "ChessboardFileName=" + node.Can2ChessboardFile + "\n")
+		deviceNum = deviceNum + 1
+		radarNum = radarNum + 1
+	}
+	if node.Net3Type > 0 {
+		var radarTypeTemp RadarType
+		for _, radarItem := range radarTypes {
+			if radarItem.TypeNum == node.Net3Type {
+				radarTypeTemp = radarItem
+				break
+			}
+		}
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "isTunnel=" + strconv.Itoa(radarTypeTemp.IsTunnel) + "\n")
+		if radarTypeTemp.IsTunnel == 1 {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=50" + "\n")
+		} else {
+			f.WriteString("device" + strconv.Itoa(deviceNum) + "KeyCenterLong=130" + "\n")
+		}
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "Range=1200" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanName=can3" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "USBIndex=0" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "CanIndex=0" + "\n")
+		f.WriteString("device" + strconv.Itoa(deviceNum) + "LocalReceivePort=" + node.Net3PortOut + "\n")
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "RadarModuleName=40821.module" + "\n")
 		var radarID int = 100000000 + project.ProjectNum*100000 + node.DeviceID*100 + radarNum
 		f.WriteString("device" + strconv.Itoa(deviceNum) + "GlobalRadarID=" + strconv.Itoa(radarID) + "\n")

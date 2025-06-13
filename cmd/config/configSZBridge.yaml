@@ -1,13 +1,13 @@
 server:
   port: 1995
-  ipAddress: "14.78.1.84"
+  ipAddress: "44.114.12.43"
   extraPort: 1996
   localImplementPath: /srv/nfsroot/
 
 project:
-  projectNum: 21
-  projectName: ShanxiFenshi
-  projectStartStakeMark: K45+000
+  projectNum: 13
+  projectName: SZBridge
+  projectStartStakeMark: K58+000
 
 
 radarTypeVec:
