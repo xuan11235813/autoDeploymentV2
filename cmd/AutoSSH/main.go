@@ -195,7 +195,7 @@ func main() {
 
 		for _, opeItem := range nodeOperations {
 			if !testOperation {
-				break
+				fmt.Println("encountered a problem")
 			}
 			fmt.Printf("current operation: %s; with detail: %s\n", opeItem.OperationName, opeItem.OperationContent)
 			fmt.Fprintf(logFile, "current operation: %s; with detail: %s\n", opeItem.OperationName, opeItem.OperationContent)
